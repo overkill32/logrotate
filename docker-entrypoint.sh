@@ -15,12 +15,14 @@ if [ -n "${DELAYED_START}" ]; then
   sleep ${DELAYED_START}
 fi
 
+# start crond
+/usr/sbin/crond &
+
+
 #Create Logrotate Conf
 source /usr/bin/logrotate.d/logrotateCreateConf.sh
 
 cat /usr/bin/logrotate.d/logrotate.conf
-
-# ----- Crontab Generation ------
 
 logrotate_parameters=""
 
@@ -69,16 +71,6 @@ fi
 
 logrotate_cron_timetable="/usr/sbin/logrotate ${logrotate_parameters} --state=${logrotate_logstatus} /usr/bin/logrotate.d/logrotate.conf ${logrotate_cronlog}"
 
-# ----- Cron Start ------
-
-if [ "$1" = 'cron' ]; then
-  if [ ${logrotate_autoupdate} = "true" ]; then
-    exec /usr/bin/go-cron "${logrotate_croninterval}" /bin/bash -c "/usr/bin/logrotate.d/update-logrotate.sh; ${logrotate_cron_timetable}"
-    exit
-  fi
-
-  exec /usr/bin/go-cron "${logrotate_croninterval}" /bin/bash -c "${logrotate_cron_timetable}"
-fi
 
 #-----------------------
 
