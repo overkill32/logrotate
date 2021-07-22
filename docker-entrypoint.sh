@@ -16,7 +16,7 @@ if [ -n "${DELAYED_START}" ]; then
 fi
 
 # start crond
-/usr/sbin/crond &
+#/usr/sbin/crond &
 
 
 #Create Logrotate Conf

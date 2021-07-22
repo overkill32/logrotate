@@ -51,4 +51,4 @@ COPY logrotate.cron /etc/periodic/daily/logrotate
 
 ENTRYPOINT ["/sbin/tini","--","/usr/bin/logrotate.d/docker-entrypoint.sh"]
 VOLUME ["/logrotate-status"]
-CMD ["cron"]
+CMD ["crond", "-f"]
